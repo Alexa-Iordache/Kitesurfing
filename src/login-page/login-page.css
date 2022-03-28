@@ -6,6 +6,7 @@ h1{
     font-family: 'Brush Script MT', cursive;
     font-weight: 20;
     font-size: 70px;
+    margin-bottom: 20px;
 }
 
 .login__username {
@@ -18,4 +19,14 @@ h1{
     margin-top: 30px;
     margin-bottom: 5px;
     font-size: small;
+}
+
+.login__button {
+    margin-top: 30px;
+    background-color: rgb(79, 144, 230);
+    border: solid 1px rgb(79, 144, 230);
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    padding: 12px 45px;
 }
