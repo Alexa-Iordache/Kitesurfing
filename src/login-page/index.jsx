@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './login-page.css';
 import TextField from "@mui/material/TextField";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import API from "../API";
 import axios from "axios";
 
@@ -9,7 +9,7 @@ import axios from "axios";
 // function for the 'login' part
 export default function Login() {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
 
@@ -53,6 +53,8 @@ export default function Login() {
                     console.log("eroare");
                 }
             })
+
+        navigate('/dashboard');
     }
 
     return (
