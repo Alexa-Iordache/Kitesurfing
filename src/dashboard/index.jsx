@@ -2,6 +2,7 @@ import React from "react";
 import './dashboard.css';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import axios from "axios";
+import { Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 // import { iconPerson } from './Icon';
 // import { icon } from "leaflet";
 
@@ -60,6 +61,21 @@ export default class Dashboard extends React.Component {
                     </Popup>
                 )} */}
                 </MapContainer>
+
+                <TableContainer className="dashboard__table">
+                    <Table stickyHeader>
+                        <TableHead className="dashboard__table-header">
+                            <TableRow className="dashboard__table-row">
+                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Name</TableCell>
+                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Country</TableCell>
+                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Latitude</TableCell>
+                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Longitude</TableCell>
+                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Wind Prob.</TableCell>
+                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>When to go</TableCell>
+                            </TableRow>
+                        </TableHead>
+                    </Table>
+                </TableContainer>
             </div>
         );
     }
