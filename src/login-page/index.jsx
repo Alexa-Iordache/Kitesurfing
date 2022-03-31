@@ -53,7 +53,6 @@ export default function Login() {
                     console.log("eroare");
                 }
             })
-
         navigate('/dashboard');
     }
 

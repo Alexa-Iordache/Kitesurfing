@@ -1,13 +1,14 @@
 import React from "react";
 import './dashboard.css';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import axios from "axios";
 
 export default class Dashboard extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            spots: []
+            spots: [],
+            activeSpot: null
         }
     }
 
@@ -19,7 +20,6 @@ export default class Dashboard extends React.Component {
         });
         console.log(this.state.spots);
     }
-    
 
     render() {
         return (
@@ -33,8 +33,26 @@ export default class Dashboard extends React.Component {
                 {/* there were put markers on every point in the map written in the JSON file */}
                 {this.state.spots.map((spot) => (
                     <Marker key={spot.id}
-                        position={[spot.lat, spot.long]}/>
+                        position={[spot.lat, spot.long]}
+                        eventHandlers={{    // event handler for click is added on markers
+                            click: () => {
+                                //console.log(spot.lat, spot.long);
+                                this.setState({
+                                    activeSpot: spot    // if a marker is clicked, the spot will be active
+                                })
+                                console.log(this.state.activeSpot);
+                            }
+                        }}
+                    />
                 ))}
+
+                {/* if the spot is active (it was clicked on), then a popup will appear */}
+                {this.state.activeSpot && (
+                    <Popup position={[this.state.activeSpot.lat, this.state.activeSpot.long]}>
+                        <div>popup</div>
+                    </Popup>
+                )}
+
             </MapContainer>
         );
     }
