@@ -2,3 +2,12 @@
     width: 100%;
     height: 100vh;
 }
+
+.dashboard__header{
+    font-family: 'Brush Script MT', cursive;
+    font-weight: 30;
+    font-size: 30px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+    text-align: left;
+}
