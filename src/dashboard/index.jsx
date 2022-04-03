@@ -2,7 +2,9 @@ import React from "react";
 import './dashboard.css';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import axios from "axios";
-import { Table, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { tableCellClasses } from "@mui/material";
+import { styled } from "@mui/material";
 // import { iconPerson } from './Icon';
 // import { icon } from "leaflet";
 
@@ -25,6 +27,42 @@ export default class Dashboard extends React.Component {
     }
 
     render() {
+
+        const StyledTableContainer = styled(TableContainer)(() => ({
+            root: {
+                width: 'max-content'
+            }
+        }));
+
+        // style added to the cell of the table 
+        const StyledTableCell = styled(TableCell)(() => ({
+
+            // the cell from the header of the table
+            [`&.${tableCellClasses.head}`]: {
+                backgroundColor: 'black',
+                color: 'white',
+                fontSize: '16px',
+                border: '1px solid white',
+                borderCollapse: 'collapse',
+                padding: '10px',
+                textAlign: 'center',
+                paddingLeft: '5px'
+            },
+
+            // the cell from the body of the table
+            [`&.${tableCellClasses.body}`]: {
+                fontSize: 14,
+                border: '1px solid black',
+                borderCollapse: 'collapse',
+                paddingLeft: '5px'
+            },
+        }));
+
+        // atyle added to the row of the table
+        const StyledTableRow = styled(TableRow)(() => ({
+            marginTop: '20px'
+        }));
+
         return (
             <div>
                 {/* header for dashboard page */}
@@ -62,20 +100,34 @@ export default class Dashboard extends React.Component {
                 )} */}
                 </MapContainer>
 
-                <TableContainer className="dashboard__table">
-                    <Table stickyHeader>
-                        <TableHead className="dashboard__table-header">
-                            <TableRow className="dashboard__table-row">
-                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Name</TableCell>
-                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Country</TableCell>
-                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Latitude</TableCell>
-                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Longitude</TableCell>
-                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Wind Prob.</TableCell>
-                                <TableCell className="dashboard__table-cell-header" style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>When to go</TableCell>
-                            </TableRow>
+                <StyledTableContainer style={{marginTop: '20px'}}>
+                    <Table stickyHeader style={{tableLayout: 'auto', width: '100%', marginLeft:'20px', marginRight: '20px'}}>
+                        <TableHead>
+                            <StyledTableRow>
+                                <StyledTableCell>Name</StyledTableCell>
+                                <StyledTableCell style={{paddingLeft:'5px'}}>Country</StyledTableCell>
+                                <StyledTableCell>Latitude</StyledTableCell>
+                                <StyledTableCell>Longitude</StyledTableCell>
+                                <StyledTableCell>Wind Prob.</StyledTableCell>
+                                <StyledTableCell>When to go</StyledTableCell>
+                            </StyledTableRow>
                         </TableHead>
+
+                        <TableBody>
+                            {this.state.spots.map((spot) => (
+                                <StyledTableRow key={spot.id}>
+                                    <StyledTableCell>{spot.name}</StyledTableCell>
+                                    <StyledTableCell style={{paddingLeft:'2px'}}>{spot.country}</StyledTableCell>
+                                    <StyledTableCell>{spot.lat}</StyledTableCell>
+                                    <StyledTableCell>{spot.long}</StyledTableCell>
+                                    <StyledTableCell>{spot.probability}</StyledTableCell>
+                                    <StyledTableCell>{spot.month}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
                     </Table>
-                </TableContainer>
+                </StyledTableContainer>
+
             </div>
         );
     }
