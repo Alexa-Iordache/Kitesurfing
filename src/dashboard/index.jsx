@@ -28,13 +28,15 @@ export default class Dashboard extends React.Component {
 
     render() {
 
+        // style added on the table container 
         const StyledTableContainer = styled(TableContainer)(() => ({
-            root: {
-                width: 'max-content'
-            }
+            marginTop: '20px', 
+            display: 'flex', 
+            flexFlow: 'row', 
+            justifyContent: 'space-around'
         }));
 
-        // style added to the cell of the table 
+        // style added on the cell of the table 
         const StyledTableCell = styled(TableCell)(() => ({
 
             // the cell from the header of the table
@@ -45,8 +47,7 @@ export default class Dashboard extends React.Component {
                 border: '1px solid white',
                 borderCollapse: 'collapse',
                 padding: '10px',
-                textAlign: 'center',
-                paddingLeft: '5px'
+                textAlign: 'center'
             },
 
             // the cell from the body of the table
@@ -54,11 +55,10 @@ export default class Dashboard extends React.Component {
                 fontSize: 14,
                 border: '1px solid black',
                 borderCollapse: 'collapse',
-                paddingLeft: '5px'
             },
         }));
 
-        // atyle added to the row of the table
+        // atyle added on the row of the table
         const StyledTableRow = styled(TableRow)(() => ({
             marginTop: '20px'
         }));
@@ -100,12 +100,12 @@ export default class Dashboard extends React.Component {
                 )} */}
                 </MapContainer>
 
-                <StyledTableContainer style={{marginTop: '20px'}}>
-                    <Table stickyHeader style={{tableLayout: 'auto', width: '100%', marginLeft:'20px', marginRight: '20px'}}>
+                <StyledTableContainer>
+                    <Table stickyHeader style={{tableLayout: 'auto', maxWidth: '95%'}}>
                         <TableHead>
                             <StyledTableRow>
                                 <StyledTableCell>Name</StyledTableCell>
-                                <StyledTableCell style={{paddingLeft:'5px'}}>Country</StyledTableCell>
+                                <StyledTableCell>Country</StyledTableCell>
                                 <StyledTableCell>Latitude</StyledTableCell>
                                 <StyledTableCell>Longitude</StyledTableCell>
                                 <StyledTableCell>Wind Prob.</StyledTableCell>
@@ -117,7 +117,7 @@ export default class Dashboard extends React.Component {
                             {this.state.spots.map((spot) => (
                                 <StyledTableRow key={spot.id}>
                                     <StyledTableCell>{spot.name}</StyledTableCell>
-                                    <StyledTableCell style={{paddingLeft:'2px'}}>{spot.country}</StyledTableCell>
+                                    <StyledTableCell>{spot.country}</StyledTableCell>
                                     <StyledTableCell>{spot.lat}</StyledTableCell>
                                     <StyledTableCell>{spot.long}</StyledTableCell>
                                     <StyledTableCell>{spot.probability}</StyledTableCell>
