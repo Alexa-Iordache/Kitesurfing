@@ -3,10 +3,26 @@
     height: 400px;
 }
 
+.dashboard__header {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 40px;
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 30px;
+}
+
 .dashboard__locations-title {
     font-size: 25px;
     font-weight: bold;
     text-align: left;
     margin-left: 40px;
     margin-top: 20px;
+}
+
+.dashboard__searching-input {
+    display: flex;
+    align-items: flex-end;
+    margin-left: 40px;
+    margin-top: 10px;
 }

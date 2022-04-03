@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import { tableCellClasses } from "@mui/material";
 import { styled } from "@mui/material";
 import { TextField } from "@mui/material";
+import { BiSearch } from 'react-icons/bi';
+import InputAdornment from '@mui/material/InputAdornment';
 // import { iconPerson } from './Icon';
 // import { icon } from "leaflet";
 
@@ -31,9 +33,9 @@ export default class Dashboard extends React.Component {
 
         // style added on the table container 
         const StyledTableContainer = styled(TableContainer)(() => ({
-            marginTop: '20px', 
-            display: 'flex', 
-            flexFlow: 'row', 
+            marginTop: '20px',
+            display: 'flex',
+            flexFlow: 'row',
             justifyContent: 'space-around'
         }));
 
@@ -102,10 +104,24 @@ export default class Dashboard extends React.Component {
                 </MapContainer>
 
                 <div className="dashboard__locations-title">Locations</div>
-                <TextField label="Searching" sx={{textAlign: 'left'}}/>
+                {/* <TextField label="Searching"/> */}
+                <div className="dashboard__searching-input ">
+                    <TextField
+                        style={{padding: '5px'}}
+                        label="Searching ..."
+                        InputProps={{
+                            startAdornment: (
+                                 <InputAdornment position="start">
+                                    <BiSearch />
+                                 </InputAdornment>
+                            ),
+                        }}
+                        variant="filled"
+                    />
+                </div>
 
                 <StyledTableContainer>
-                    <Table stickyHeader style={{tableLayout: 'auto', maxWidth: '95%'}}>
+                    <Table stickyHeader style={{ tableLayout: 'auto', maxWidth: '95%' }}>
                         <TableHead>
                             <StyledTableRow>
                                 <StyledTableCell>Name</StyledTableCell>
