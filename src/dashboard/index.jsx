@@ -5,6 +5,7 @@ import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { tableCellClasses } from "@mui/material";
 import { styled } from "@mui/material";
+import { TextField } from "@mui/material";
 // import { iconPerson } from './Icon';
 // import { icon } from "leaflet";
 
@@ -99,6 +100,9 @@ export default class Dashboard extends React.Component {
                     </Popup>
                 )} */}
                 </MapContainer>
+
+                <div className="dashboard__locations-title">Locations</div>
+                <TextField label="Searching" sx={{textAlign: 'left'}}/>
 
                 <StyledTableContainer>
                     <Table stickyHeader style={{tableLayout: 'auto', maxWidth: '95%'}}>

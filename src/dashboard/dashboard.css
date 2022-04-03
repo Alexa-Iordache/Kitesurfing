@@ -3,50 +3,10 @@
     height: 400px;
 }
 
-/* .dashboard__header{
-    font-family: 'Brush Script MT', cursive;
-    font-weight: 30;
-    font-size: 30px;
+.dashboard__locations-title {
+    font-size: 25px;
+    font-weight: bold;
     text-align: left;
-} */
-/* 
-Table {
-    width: 100%;
-} */
-
-/* .MuiTableCell-root{
-    background-color: red;
+    margin-left: 40px;
     margin-top: 20px;
-} */
-
-/* tr {
-    background-color: red;
 }
-
-TableCell{
-    border: 1px black solid;
-    border-collapse: collapse;
-    padding: 5px;
-    color: red;
-} */
-
-/* .dashboard__table-header {
-    text-align: center;
-    font-weight: bold;
-    color: red;
-    overflow-y: auto;
-    overflow-x: hidden;
-} */
-
-/* .dashboard__table-row {
-    text-align: center;
-    font-weight: bold;
-    color: red;
-} */
-
-/* .dashboard__table-cell-header {
-    background-color: rgb(195, 124, 241);
-    text-align: center;
-    font-weight: bold;
-    color: red;
-} */
