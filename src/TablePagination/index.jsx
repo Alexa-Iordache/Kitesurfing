@@ -29,7 +29,7 @@ export default function TablePaginationActions(props) {
   };
 
   return (
-    <Box>
+    <Box style={{width: '500px', marginLeft: '15px'}}>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
@@ -37,13 +37,15 @@ export default function TablePaginationActions(props) {
       >
         {theme.direction === 'rtl' ? <BiLastPage /> : <BiFirstPage />}
       </IconButton>
+
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
       >
-        {theme.direction === 'rtl' ? <AiOutlineArrowLeft /> : <AiOutlineArrowRight />}
+        {theme.direction === 'rtl' ? <AiOutlineArrowRight /> : <AiOutlineArrowLeft />}
       </IconButton>
+
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
@@ -51,6 +53,7 @@ export default function TablePaginationActions(props) {
       >
         {theme.direction === 'rtl' ? <AiOutlineArrowLeft /> : <AiOutlineArrowRight />}
       </IconButton>
+
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
