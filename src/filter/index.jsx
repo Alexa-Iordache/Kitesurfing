@@ -1,37 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import './filter.css';
-
-// const pokemons = [
-//     {
-//         id: 1,
-//         nome: "Eevee",
-//         tipo: "normal",
-//         registro: 133,
-//         CP: 300
-//     },
-//     {
-//         id: 2,
-//         nome: "Charmander",
-//         tipo: "fire",
-//         registro: 123,
-//         CP: 500
-//     },
-//     {
-//         id: 3,
-//         nome: "Charizard",
-//         tipo: "fire",
-//         registro: 123,
-//         CP: 500
-//     },
-//     {
-//         id: 4,
-//         nome: "Pikachu",
-//         tipo: "eletric",
-//         registro: 63,
-//         CP: 350
-//     }
-// ];
+import axios from "axios";
 
 // const buttons = [
 //     {
@@ -100,16 +70,62 @@ import './filter.css';
 //     );
 // }
 
-const handleCountry = (e) => {
-    console.log(e.target.value);
-}
-
-const handleWindProb = (e) => {
-    console.log(e.target.value);
-}
-
-
 export default function Filter() {
+
+    const [spots, setSpots] = useState([]);
+    // const [filtredSpots, setFiltredSpots] = useState(null);
+    const [country, setCountry] = useState('');
+    const [windProb, setWindProb] = useState(0);
+
+    useEffect(() => {
+        async function fetchData() {
+            const request = await axios.get('https://5ddbb358041ac10014de140b.mockapi.io/spot');
+            setSpots(request.data);
+            return request;
+        }
+        fetchData();
+    }, []);
+
+    const handleCountry = (e) => {
+        setCountry(e.target.value);
+        console.log(country);
+    }
+    
+    const handleWindProb = (e) => {
+        setWindProb(e.target.value);
+        console.log(parseInt(e.target.value, 10));
+    }
+    
+
+    // const getSpot = () => {
+    //     const spotsList = spots;
+    //     console.log(spotsList);
+    //     return spotsList;
+    // }
+
+    // const filterSpots = (spotType) => {
+    //     let filtredSpots = getSpot().filter(type => type.tipo === spotType);
+    //     return filtredSpots;
+    // }
+
+    // useEffect(() => {
+    //     setFiltredSpots(getSpot());
+    // }, []);
+
+    function handleSpot(e) {
+        // let typeSpot = e.target.value;
+        // typeSpot !== "all"
+        //     ? setFiltredSpots(filtredSpots(typeSpot))
+        //     : setFiltredSpots(getSpot());
+        spots.map((spot) => (
+            (spot.country === country && spot.probability == windProb)
+                ? console.log(spot) 
+                // : console.log("nu exista")
+                : console.log("nu exista")
+        ))
+    }
+
+
     return (
         <div className="filter__main-container">
             <div className="filter__second-container">
@@ -126,7 +142,7 @@ export default function Filter() {
                     onChange={handleWindProb}
                 />
 
-                <button className="filter__button">APPLY FILTER</button>
+                <button className="filter__button" onClick={handleSpot}>APPLY FILTER</button>
             </div>
 
         </div>
