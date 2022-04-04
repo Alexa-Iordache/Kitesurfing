@@ -9,6 +9,7 @@ import { TextField, TablePagination } from "@mui/material";
 import { BiSearch } from 'react-icons/bi';
 import InputAdornment from '@mui/material/InputAdornment';
 import TablePaginationActions from "../TablePagination";
+import Filter from "../filter";
 
 
 export default function Dashboard() {
@@ -193,6 +194,8 @@ export default function Dashboard() {
                     </TableFooter>
                 </Table>
             </StyledTableContainer>
+
+            <Filter/>
         </div>
     );
 }
