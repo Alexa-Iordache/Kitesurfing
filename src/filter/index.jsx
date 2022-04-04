@@ -3,80 +3,15 @@ import { TextField } from "@mui/material";
 import './filter.css';
 import axios from "axios";
 
-// const buttons = [
-//     {
-//         name: "All",
-//         value: "all"
-//     },
-//     {
-//         name: "Fire",
-//         value: "fire"
-//     },
-//     {
-//         name: "Normal",
-//         value: "normal"
-//     },
-//     {
-//         name: "Electric",
-//         value: "eletric"
-//     }
-// ];
-
-// function getPokemon() {
-//     const pokemonList = pokemons;
-//     console.log(pokemonList);
-//     return pokemonList;
-// }
-
-// function filterPokemon(pokeType) {
-//     let filtredPokemon = getPokemon().filter(type => type.tipo === pokeType);
-//     return filtredPokemon;
-// }
-
-
-
-// export default function Filter() {
-//     const [filtredPokemon, setFiltredPokemon] = useState(null);
-
-//     useEffect(() => {
-//         setFiltredPokemon(getPokemon());
-//     }, []);
-
-//     function handlePokemon(e) {
-//         let typePokemon = e.target.value;
-//         typePokemon !== "all"
-//             ? setFiltredPokemon(filterPokemon(typePokemon))
-//             : setFiltredPokemon(getPokemon());
-//     }
-
-//     return (
-//         <>
-//             {buttons &&
-//                 buttons.map((type, index) => (
-//                     <>
-//                         <button key={index} value={type.value} onClick={handlePokemon}>
-//                             {type.name}
-//                         </button>
-//                     </>
-//                 ))}
-
-//             {filtredPokemon &&
-//                 filtredPokemon.map(type => (
-//                     <ul key={type.id}>
-//                         <li>{type.nome}</li>
-//                     </ul>
-//                 ))}
-//         </>
-//     );
-// }
-
+// function for filtering the spots based on country and wind probability
 export default function Filter() {
 
     const [spots, setSpots] = useState([]);
-    // const [filtredSpots, setFiltredSpots] = useState(null);
+    const [filtredSpots, setFiltredSpots] = useState([]);
     const [country, setCountry] = useState('');
     const [windProb, setWindProb] = useState(0);
 
+    // fetching the data from the JSON file
     useEffect(() => {
         async function fetchData() {
             const request = await axios.get('https://5ddbb358041ac10014de140b.mockapi.io/spot');
@@ -86,43 +21,27 @@ export default function Filter() {
         fetchData();
     }, []);
 
+
+    // set the country written in the text field
     const handleCountry = (e) => {
         setCountry(e.target.value);
-        console.log(country);
+        //console.log(country);
     }
     
+    // set the wind probability written in the text field
     const handleWindProb = (e) => {
         setWindProb(e.target.value);
-        console.log(parseInt(e.target.value, 10));
+        //console.log(typeof(e.target.value, 10));
     }
     
-
-    // const getSpot = () => {
-    //     const spotsList = spots;
-    //     console.log(spotsList);
-    //     return spotsList;
-    // }
-
-    // const filterSpots = (spotType) => {
-    //     let filtredSpots = getSpot().filter(type => type.tipo === spotType);
-    //     return filtredSpots;
-    // }
-
-    // useEffect(() => {
-    //     setFiltredSpots(getSpot());
-    // }, []);
-
+    // function that retains the spots that satisfy the conditions in an array named 'filtredSpots'
     function handleSpot(e) {
-        // let typeSpot = e.target.value;
-        // typeSpot !== "all"
-        //     ? setFiltredSpots(filtredSpots(typeSpot))
-        //     : setFiltredSpots(getSpot());
         spots.map((spot) => (
-            (spot.country === country && spot.probability == windProb)
-                ? console.log(spot) 
-                // : console.log("nu exista")
-                : console.log("nu exista")
+            (spot.country === country) || (spot.probability == windProb)
+                ? setFiltredSpots(spot)
+                : null
         ))
+        console.log(filtredSpots);
     }
 
 
@@ -132,13 +51,11 @@ export default function Filter() {
                 <TextField
                     label="Country"
                     variant="filled"
-                    //value={country}
                     onChange={handleCountry}
                 />
                 <TextField
                     label="Wind Probability"
                     variant="filled"
-                    //value={country}
                     onChange={handleWindProb}
                 />
 
