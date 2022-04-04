@@ -10,6 +10,7 @@ import { BiSearch } from 'react-icons/bi';
 import InputAdornment from '@mui/material/InputAdornment';
 import TablePaginationActions from "../TablePagination";
 import Filter from "../filter";
+import { WiDegrees } from 'react-icons/wi';
 
 
 export default function Dashboard() {
@@ -97,12 +98,24 @@ export default function Dashboard() {
 
                     {/* there were put markers on every point in the map written in the JSON file */}
                     {spots.map((spot) => (
-                        <Marker 
+                        <Marker
                             key={spot.id}
-                            position={[spot.lat, spot.long]} // event handler for click is added on markers // if a marker is clicked, the spot will be active
-                            // eventHandlers={{ click: console.log("popup")}}
+                            position={[spot.lat, spot.long]}
                         >
-                            <Popup>here</Popup>
+                            <Popup>
+                                <div>
+                                    <div className="popup__name">{spot.name}</div>
+                                    <div className="popup__country">{spot.country}</div>
+                                    <div className="popup__first-title">WIND PROBABILITY</div>
+                                    <div className="popup__windProb"><span>{spot.probability}</span><span>%</span></div>
+                                    <div className="popup__title">LATITUDE</div>
+                                    <div className="popup__lat">{spot.lat}<WiDegrees />N</div>
+                                    <div className="popup__title">LONGITUDE</div>
+                                    <div className="popup__long">{spot.long}<WiDegrees />W</div>
+                                    <div className="popup__title">WHEN TO GO</div>
+                                    <div className="popup__month">{spot.month}</div>
+                                </div>
+                            </Popup>
                         </Marker>
                     ))}
 
