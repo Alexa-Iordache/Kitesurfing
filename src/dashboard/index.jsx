@@ -17,7 +17,7 @@ export default function Dashboard() {
     const [spots, setSpots] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [activeSpot, setActiveSpots] = useState([]);
+    // const [activeSpot, setActiveSpots] = useState([]);
 
     // get the information about the spots from JSON and put them in 'spots'
     useEffect(() => {
@@ -89,7 +89,7 @@ export default function Dashboard() {
 
                 {/* there was choosen the center of Bucharest, Romania, as starting point */}
                 <MapContainer center={[44.4317188182863, 26.102904157147936]}
-                    zoom={12} scrollWheelZoom={true} style={{position: 'absolute', top: '0', left: '0'}}>
+                    zoom={12} scrollWheelZoom={true} style={{ position: 'absolute', top: '0', left: '0' }}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -97,24 +97,26 @@ export default function Dashboard() {
 
                     {/* there were put markers on every point in the map written in the JSON file */}
                     {spots.map((spot) => (
-                        <Marker key={spot.id}
+                        <Marker 
+                            key={spot.id}
                             position={[spot.lat, spot.long]} // event handler for click is added on markers // if a marker is clicked, the spot will be active
-                            onClick={() => {setActiveSpots(spot)}}
-                        />
+                            // eventHandlers={{ click: console.log("popup")}}
+                        >
+                            <Popup>here</Popup>
+                        </Marker>
                     ))}
 
                     {/* if the spot is active (it was clicked on), then a popup will appear */}
-                    {/* {activeSpot && (
-                     <Popup position={[activeSpot.lat, activeSpot.long]}>
-                         <div>popup</div>
-                     </Popup> 
-                  )} */}
-
+                    {/* {spots.map((spot) => (
+                        <Popup position={[activeSpot.lat, activeSpot.long]}>
+                            <div>popup</div>
+                        </Popup>
+                    ))} */}
 
                 </MapContainer>
-                
+
                 <div className="dashboard__filter">
-                    <Filter vector={spots}/>
+                    <Filter vector={spots} />
                 </div>
 
             </div>

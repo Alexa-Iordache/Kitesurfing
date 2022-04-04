@@ -14,19 +14,19 @@ export default function Filter(props) {
     // set the country written in the text field
     const handleCountry = (e) => {
         setCountry(e.target.value);
-        //console.log(country);
+        console.log(country);
     }
 
     // set the wind probability written in the text field
     const handleWindProb = (e) => {
         setWindProb(e.target.value);
-        //console.log(typeof(e.target.value, 10));
+        console.log(windProb);
     }
 
     // function that retains the spots that satisfy the conditions in an array named 'filtredSpots'
     function handleSpot(e) {
         spots.map((spot) => (
-            (spot.country === country) || (spot.probability == windProb)
+            (spot.country === country && spot.probability == windProb)
                 ? setFiltredSpots(spot)
                 : null
         ))
