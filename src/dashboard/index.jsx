@@ -11,6 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TablePaginationActions from "../TablePagination";
 import Filter from "../filter";
 import { WiDegrees } from 'react-icons/wi';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 
 export default function Dashboard() {
@@ -114,6 +115,7 @@ export default function Dashboard() {
                                     <div className="popup__long">{spot.long}<WiDegrees />W</div>
                                     <div className="popup__title">WHEN TO GO</div>
                                     <div className="popup__month">{spot.month}</div>
+                                    <button className="popup__button"><span><AiOutlinePlus style={{color:'white', fontWeight: 'bolder'}}/></span> <span>ADD TO FAVORITES</span></button>
                                 </div>
                             </Popup>
                         </Marker>
