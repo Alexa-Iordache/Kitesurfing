@@ -84,38 +84,48 @@ export default function Dashboard() {
             {/* header for dashboard page */}
             <div className="dashboard__header">Kite</div>
 
-            {/* there was choosen the center of Bucharest, Romania, as starting point */}
-            <MapContainer className="map-container" center={[44.4317188182863, 26.102904157147936]} zoom={12} scrollWheelZoom={true}>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+            <div className="dashboard__mapAndFilter">
 
-                {/* there were put markers on every point in the map written in the JSON file */}
-                {spots.map((spot) => (
-                    <Marker key={spot.id}
-                        position={[spot.lat, spot.long]}
-                        eventHandlers={{    // event handler for click is added on markers
-                            click: () => {
-                                //console.log(spot.lat, spot.long);
-                                // this.setState({
-                                //     activeSpot: spot    // if a marker is clicked, the spot will be active
-                                // })
-                                // console.log(activeSpot);
-                            }
-                        }}
-
+                {/* there was choosen the center of Bucharest, Romania, as starting point */}
+                <MapContainer center={[44.4317188182863, 26.102904157147936]}
+                    zoom={12} scrollWheelZoom={true} style={{position: 'absolute', top: '0', left: '0'}}>
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                ))}
 
-                {/* if the spot is active (it was clicked on), then a popup will appear */}
-                {/* {this.state.activeSpot && (
+                    {/* there were put markers on every point in the map written in the JSON file */}
+                    {spots.map((spot) => (
+                        <Marker key={spot.id}
+                            position={[spot.lat, spot.long]}
+                            eventHandlers={{    // event handler for click is added on markers
+                                click: () => {
+                                    //console.log(spot.lat, spot.long);
+                                    // this.setState({
+                                    //     activeSpot: spot    // if a marker is clicked, the spot will be active
+                                    // })
+                                    // console.log(activeSpot);
+                                }
+                            }}
+
+                        />
+                    ))}
+
+                    {/* if the spot is active (it was clicked on), then a popup will appear */}
+                    {/* {this.state.activeSpot && (
                      <Popup position={[this.state.activeSpot.lat, this.state.activeSpot.long]}>
                          <div>popup</div>
                      </Popup>
                  )} */}
 
-            </MapContainer>
+
+                </MapContainer>
+                
+                <div className="dashboard__filter">
+                    <Filter/>
+                </div>
+
+            </div>
 
             {/* div for the 'Kite' title*/}
             <div className="dashboard__locations-title">Locations</div>
@@ -172,7 +182,7 @@ export default function Dashboard() {
                     </TableBody>
 
                     {/* add footer for the table */}
-                    <TableFooter style={{display: 'flex', alignItems: 'center'}}>
+                    <TableFooter style={{ display: 'flex', alignItems: 'center' }}>
                         <StyledTableRow>
                             <TablePagination
                                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}   // the user can choose how many rows should be dispalyed in the table at a time (5 rows, 10 rows or 25 rows)
@@ -195,7 +205,7 @@ export default function Dashboard() {
                 </Table>
             </StyledTableContainer>
 
-            <Filter/>
+            {/* <Filter/> */}
         </div>
     );
 }
