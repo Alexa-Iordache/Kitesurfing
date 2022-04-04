@@ -12,6 +12,7 @@ import TablePaginationActions from "../TablePagination";
 import Filter from "../filter";
 import { WiDegrees } from 'react-icons/wi';
 import { AiOutlinePlus } from 'react-icons/ai';
+import image1 from './images/filter.png';
 
 
 export default function Dashboard() {
@@ -19,7 +20,8 @@ export default function Dashboard() {
     const [spots, setSpots] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    // const [activeSpot, setActiveSpots] = useState([]);
+    const [buttonClicked, setButtonClicked] = useState(false);
+    const [buttonDisplayed, setButtonDisplayed] = useState(true);
 
     // get the information about the spots from JSON and put them in 'spots'
     useEffect(() => {
@@ -82,6 +84,11 @@ export default function Dashboard() {
         marginTop: '20px'
     }));
 
+    const handleFilterButtonClick = (e) => {
+       setButtonClicked(true);
+       setButtonDisplayed(false);
+    }
+
     return (
         <div>
             {/* header for dashboard page */}
@@ -115,23 +122,21 @@ export default function Dashboard() {
                                     <div className="popup__long">{spot.long}<WiDegrees />W</div>
                                     <div className="popup__title">WHEN TO GO</div>
                                     <div className="popup__month">{spot.month}</div>
-                                    <button className="popup__button"><span><AiOutlinePlus style={{color:'white', fontWeight: 'bolder'}}/></span> <span>ADD TO FAVORITES</span></button>
+                                    <button className="popup__button"><span><AiOutlinePlus style={{color:'white'}}/></span> <span>ADD TO FAVORITES</span></button>
                                 </div>
                             </Popup>
                         </Marker>
                     ))}
 
-                    {/* if the spot is active (it was clicked on), then a popup will appear */}
-                    {/* {spots.map((spot) => (
-                        <Popup position={[activeSpot.lat, activeSpot.long]}>
-                            <div>popup</div>
-                        </Popup>
-                    ))} */}
-
                 </MapContainer>
 
                 <div className="dashboard__filter">
-                    <Filter vector={spots} />
+
+                    {/* when the Filter button is clicked, the container with the searching options will appear */}
+                    {buttonClicked === true ? <Filter vector={spots}/> : null}
+
+                    {/* after the Filter button is clicked and the container with the searching options is displayed, the button will not be displayed anymore*/}
+                    {buttonDisplayed === false ? null : <button className="dashboard__filter-button" onClick={handleFilterButtonClick}> <img src={image1} className="filter__image"/> <span className="filter__span">FILTERS</span> </button>}
                 </div>
 
             </div>

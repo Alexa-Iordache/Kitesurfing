@@ -42,6 +42,28 @@
     margin-top: 20px;
 }
 
+.dashboard__filter-button {
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 0px;
+    display: flex;
+    flex-direction: row;
+}
+
+.filter__image {
+    width: 20px;
+    height: 20px;
+}
+
+.filter__span {
+    padding-top: 3px;
+    padding-left: 10px;
+    color: rgb(18, 18, 187);
+    font-weight: bold;
+}
+
 .popup__main-container {
     border-radius: 0px;
 }
