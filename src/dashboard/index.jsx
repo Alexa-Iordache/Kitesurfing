@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './dashboard.css';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from "@mui/material";
 import { tableCellClasses } from "@mui/material";
@@ -17,6 +17,7 @@ export default function Dashboard() {
     const [spots, setSpots] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [activeSpot, setActiveSpots] = useState([]);
 
     // get the information about the spots from JSON and put them in 'spots'
     useEffect(() => {
@@ -97,32 +98,23 @@ export default function Dashboard() {
                     {/* there were put markers on every point in the map written in the JSON file */}
                     {spots.map((spot) => (
                         <Marker key={spot.id}
-                            position={[spot.lat, spot.long]}
-                            eventHandlers={{    // event handler for click is added on markers
-                                click: () => {
-                                    //console.log(spot.lat, spot.long);
-                                    // this.setState({
-                                    //     activeSpot: spot    // if a marker is clicked, the spot will be active
-                                    // })
-                                    // console.log(activeSpot);
-                                }
-                            }}
-
+                            position={[spot.lat, spot.long]} // event handler for click is added on markers // if a marker is clicked, the spot will be active
+                            onClick={() => {setActiveSpots(spot)}}
                         />
                     ))}
 
                     {/* if the spot is active (it was clicked on), then a popup will appear */}
-                    {/* {this.state.activeSpot && (
-                     <Popup position={[this.state.activeSpot.lat, this.state.activeSpot.long]}>
+                    {/* {activeSpot && (
+                     <Popup position={[activeSpot.lat, activeSpot.long]}>
                          <div>popup</div>
-                     </Popup>
-                 )} */}
+                     </Popup> 
+                  )} */}
 
 
                 </MapContainer>
                 
                 <div className="dashboard__filter">
-                    <Filter/>
+                    <Filter vector={spots}/>
                 </div>
 
             </div>
@@ -204,8 +196,6 @@ export default function Dashboard() {
                     </TableFooter>
                 </Table>
             </StyledTableContainer>
-
-            {/* <Filter/> */}
         </div>
     );
 }
