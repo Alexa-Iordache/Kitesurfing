@@ -28,13 +28,16 @@ export default function Dashboard() {
         fetchData();
     }, []);
 
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - spots.length) : 0;
+    // variable that returns true if there are no empty rows and false in case of the opposite
+    // const emptyRows =
+    //     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - spots.length) : 0;
 
+    // function for changing the page 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
+    // function to change how many rows are displayed on one page of the table 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
@@ -113,8 +116,10 @@ export default function Dashboard() {
 
             </MapContainer>
 
+            {/* div for the 'Kite' title*/}
             <div className="dashboard__locations-title">Locations</div>
 
+            {/* searching input */}
             <div className="dashboard__searching-input ">
                 <TextField
                     style={{ padding: '5px' }}
@@ -131,7 +136,7 @@ export default function Dashboard() {
             </div>
 
             <StyledTableContainer>
-                <Table stickyHeader style={{ tableLayout: 'auto', maxWidth: '95%' }}>
+                <Table stickyHeader style={{ tableLayout: 'fixed', maxWidth: '95%' }}>
                     <TableHead>
                         <StyledTableRow>
                             <StyledTableCell>Name</StyledTableCell>
@@ -144,6 +149,7 @@ export default function Dashboard() {
                     </TableHead>
 
                     <TableBody>
+                        {/* split the table rows in table of there is enough space fo them */}
                         {(rowsPerPage > 0 ?
                             spots.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : spots
                         ).map((spot) => (
@@ -157,19 +163,20 @@ export default function Dashboard() {
                             </StyledTableRow>
                         ))}
 
-                        {emptyRows > 0 && (
+                        {/* {emptyRows > 0 && (
                             <StyledTableRow>
                                 <StyledTableCell colSpan={6} />
                             </StyledTableRow>
-                        )}
+                        )} */}
                     </TableBody>
 
-                    <TableFooter>
+                    {/* add footer for the table */}
+                    <TableFooter style={{display: 'flex', alignItems: 'center'}}>
                         <StyledTableRow>
                             <TablePagination
-                                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}   // the user can choose how many rows should be dispalyed in the table at a time (5 rows, 10 rows or 25 rows)
                                 colSpan={3}
-                                count={spots.length}
+                                count={spots.length} // how many item are (spots)
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 SelectProps={{
