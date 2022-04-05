@@ -1,0 +1,53 @@
+.popup__main-container {
+    border-radius: 0px;
+}
+
+.popup__name {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.popup__country {
+    font-size: 10px;
+    color: grey;
+}
+
+.popup__first-title {
+    font-weight: bold;
+    color: grey;
+    font-size: 10px;
+    margin-top: 10px;
+}
+
+.popup__title {
+    font-weight: bold;
+    color: grey;
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+.popup__button {
+    border: 0px;
+    background-color: rgb(237, 168, 39);
+    width: 100%;
+    margin: 0px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+}
+
+.popup__button-remove {
+    border: 0px;
+    background-color: red;
+    width: 100%;
+    margin: 0px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+}
