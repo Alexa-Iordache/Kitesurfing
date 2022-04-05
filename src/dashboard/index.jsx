@@ -11,7 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TablePaginationActions from "../TablePagination";
 import Filter from "../filter";
 import image1 from './images/filter.png';
-import L, { map } from 'leaflet';
+import L from 'leaflet';
 import DetailsPage from "../modal";
 
 
@@ -122,6 +122,7 @@ export default function Dashboard() {
     const handleFilterButtonClick = (e) => {
         setButtonClicked(true);
         setButtonDisplayed(false);
+        console.log(spots);
     }
 
     // we change the spots' 'favorite' attribute to 'true' if that spot is on the list with favorites
@@ -130,6 +131,17 @@ export default function Dashboard() {
             if (spots[i].id == parseInt(favSpots[j].spot))
             {
                 spots[i].favorite = true;
+            }
+        }
+    }
+
+    const addToFavorites = (spot) => {
+        for (const s of spots)
+        {
+            if (s.id === spot.id)
+            {
+                s.favorite = true;
+                break;
             }
         }
     }
@@ -163,7 +175,11 @@ export default function Dashboard() {
                               }}
                             icon = {spot.favorite === true ? greenIcon : blueIcon}  // if the spot is favorite, then the marker should be yellow
                         >
-                            <DetailsPage spotNeeded={spot} yellowIcon={greenIcon}/>
+                            for 
+                            <DetailsPage spotNeeded={spot} 
+                                yellowIcon={greenIcon} 
+                                addToFavorites = {addToFavorites}
+                                vector={spots}/>
                         </Marker>
                     ))}
                 </MapContainer>
