@@ -163,11 +163,9 @@ export default function Dashboard() {
                               }}
                             icon = {spot.favorite === true ? greenIcon : blueIcon}  // if the spot is favorite, then the marker should be yellow
                         >
-                            <DetailsPage spotNeeded={spot}/>
+                            <DetailsPage spotNeeded={spot} yellowIcon={greenIcon}/>
                         </Marker>
                     ))}
-
-
                 </MapContainer>
 
                 <div className="dashboard__filter">
