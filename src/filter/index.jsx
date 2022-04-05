@@ -14,13 +14,13 @@ export default function Filter(props) {
     // set the country written in the text field
     const handleCountry = (e) => {
         setCountry(e.target.value);
-        console.log(country);
+        console.log(e.target.value);
     }
 
     // set the wind probability written in the text field
     const handleWindProb = (e) => {
         setWindProb(e.target.value);
-        console.log(windProb);
+        console.log(e.target.value);
     }
 
     // function that retains the spots that satisfy the conditions in an array named 'filtredSpots'
@@ -31,6 +31,7 @@ export default function Filter(props) {
                 : null
         ))
         console.log(filtredSpots);
+        console.log("test");
     }
 
 

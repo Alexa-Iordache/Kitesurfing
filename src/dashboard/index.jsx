@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './dashboard.css';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from "@mui/material";
 import { tableCellClasses } from "@mui/material";
@@ -10,9 +10,9 @@ import { BiSearch } from 'react-icons/bi';
 import InputAdornment from '@mui/material/InputAdornment';
 import TablePaginationActions from "../TablePagination";
 import Filter from "../filter";
-import { WiDegrees } from 'react-icons/wi';
-import { AiOutlinePlus } from 'react-icons/ai';
 import image1 from './images/filter.png';
+// import L, { icon, marker } from 'leaflet';
+import DetailsPage from "../modal";
 
 
 export default function Dashboard() {
@@ -22,6 +22,24 @@ export default function Dashboard() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [buttonClicked, setButtonClicked] = useState(false);
     const [buttonDisplayed, setButtonDisplayed] = useState(true);
+
+    // var greenIcon = new L.Icon({
+    //     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    //     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    //     iconSize: [25, 41],
+    //     iconAnchor: [12, 41],
+    //     popupAnchor: [1, -34],
+    //     shadowSize: [41, 41]
+    //   });
+
+    //   var blueIcon = new L.Icon({
+    //     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+    //     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    //     iconSize: [25, 41],
+    //     iconAnchor: [12, 41],
+    //     popupAnchor: [1, -34],
+    //     shadowSize: [41, 41]
+    //   });
 
     // get the information about the spots from JSON and put them in 'spots'
     useEffect(() => {
@@ -92,7 +110,9 @@ export default function Dashboard() {
     return (
         <div>
             {/* header for dashboard page */}
-            <div className="dashboard__header">Kite</div>
+            <div className="dashboard__header">
+                <div className="dashboard__title">Kite</div>
+            </div>
 
             <div className="dashboard__mapAndFilter">
 
@@ -109,22 +129,14 @@ export default function Dashboard() {
                         <Marker
                             key={spot.id}
                             position={[spot.lat, spot.long]}
+                            eventHandlers={{
+                                click: (e) => {
+                                  console.log('marker clicked', e);
+                                },
+                              }}
+                            // icon = {markerClicked === true ? greenIcon : blueIcon}
                         >
-                            <Popup>
-                                <div>
-                                    <div className="popup__name">{spot.name}</div>
-                                    <div className="popup__country">{spot.country}</div>
-                                    <div className="popup__first-title">WIND PROBABILITY</div>
-                                    <div className="popup__windProb"><span>{spot.probability}</span><span>%</span></div>
-                                    <div className="popup__title">LATITUDE</div>
-                                    <div className="popup__lat">{spot.lat}<WiDegrees />N</div>
-                                    <div className="popup__title">LONGITUDE</div>
-                                    <div className="popup__long">{spot.long}<WiDegrees />W</div>
-                                    <div className="popup__title">WHEN TO GO</div>
-                                    <div className="popup__month">{spot.month}</div>
-                                    <button className="popup__button"><span><AiOutlinePlus style={{color:'white'}}/></span> <span>ADD TO FAVORITES</span></button>
-                                </div>
-                            </Popup>
+                            <DetailsPage spotNeeded={spot}/>
                         </Marker>
                     ))}
 
