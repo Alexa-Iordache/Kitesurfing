@@ -11,7 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TablePaginationActions from "../TablePagination";
 import Filter from "../filter";
 import image1 from './images/filter.png';
-// import L, { icon, marker } from 'leaflet';
+import L, { map } from 'leaflet';
 import DetailsPage from "../modal";
 
 
@@ -22,32 +22,49 @@ export default function Dashboard() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [buttonClicked, setButtonClicked] = useState(false);
     const [buttonDisplayed, setButtonDisplayed] = useState(true);
+    // const [markerClicked, setMarkerClicked] = useState(false);
+    const [favSpots, setFavSpots] = useState([]);
 
-    // var greenIcon = new L.Icon({
-    //     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    //     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    //     iconSize: [25, 41],
-    //     iconAnchor: [12, 41],
-    //     popupAnchor: [1, -34],
-    //     shadowSize: [41, 41]
-    //   });
 
-    //   var blueIcon = new L.Icon({
-    //     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-    //     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    //     iconSize: [25, 41],
-    //     iconAnchor: [12, 41],
-    //     popupAnchor: [1, -34],
-    //     shadowSize: [41, 41]
-    //   });
+    var greenIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    var blueIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 
     // get the information about the spots from JSON and put them in 'spots'
     useEffect(() => {
         async function fetchData() {
             const request = await axios.get('https://5ddbb358041ac10014de140b.mockapi.io/spot');
+            for (const obj of request.data) {
+                obj.favorite = false;    // attribute 'favorite' helps us to know if the spot is on the favorite list or no
+            }
             setSpots(request.data);
             console.log(request.data);
             return request;
+        }
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        async function fetchData() {
+            const request = await axios.get('https://5ddbb358041ac10014de140b.mockapi.io/favourites');
+            for (const obj of request.data) {
+                obj.favorite = true;    // attribute 'favorite' helps us to know if the spot is on the favorite list or no
+            }
+            setFavSpots(request.data);
+            console.log(request.data);
+            //return request;
         }
         fetchData();
     }, []);
@@ -103,8 +120,18 @@ export default function Dashboard() {
     }));
 
     const handleFilterButtonClick = (e) => {
-       setButtonClicked(true);
-       setButtonDisplayed(false);
+        setButtonClicked(true);
+        setButtonDisplayed(false);
+    }
+
+    // we change the spots' 'favorite' attribute to 'true' if that spot is on the list with favorites
+    for (var i=0; i <spots.length; i++){
+        for (var j=0; j <favSpots.length; j++){
+            if (spots[i].id == parseInt(favSpots[j].spot))
+            {
+                spots[i].favorite = true;
+            }
+        }
     }
 
     return (
@@ -134,21 +161,22 @@ export default function Dashboard() {
                                   console.log('marker clicked', e);
                                 },
                               }}
-                            // icon = {markerClicked === true ? greenIcon : blueIcon}
+                            icon = {spot.favorite === true ? greenIcon : blueIcon}  // if the spot is favorite, then the marker should be yellow
                         >
                             <DetailsPage spotNeeded={spot}/>
                         </Marker>
                     ))}
+
 
                 </MapContainer>
 
                 <div className="dashboard__filter">
 
                     {/* when the Filter button is clicked, the container with the searching options will appear */}
-                    {buttonClicked === true ? <Filter vector={spots}/> : null}
+                    {buttonClicked === true ? <Filter vector={spots} /> : null}
 
                     {/* after the Filter button is clicked and the container with the searching options is displayed, the button will not be displayed anymore*/}
-                    {buttonDisplayed === false ? null : <button className="dashboard__filter-button" onClick={handleFilterButtonClick}> <img src={image1} className="filter__image"/> <span className="filter__span">FILTERS</span> </button>}
+                    {buttonDisplayed === false ? null : <button className="dashboard__filter-button" onClick={handleFilterButtonClick}> <img src={image1} className="filter__image" /> <span className="filter__span">FILTERS</span> </button>}
                 </div>
 
             </div>
