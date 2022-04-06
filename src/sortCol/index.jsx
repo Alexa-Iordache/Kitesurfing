@@ -11,6 +11,9 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
 import axios from 'axios';
+import { tableCellClasses } from "@mui/material";
+import { styled } from "@mui/material";
+import TablePaginationActions from "../TablePagination";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -87,11 +90,29 @@ function EnhancedTableHead(props) {
         onRequestSort(event, property);
     };
 
+    const StyledTableRow = styled(TableRow)(() => ({
+        marginTop: '20px'
+    }));
+
+    const StyledTableCell = styled(TableCell)(() => ({
+
+        // the cell from the header of the table
+        [`&.${tableCellClasses.head}`]: {
+            backgroundColor: 'black',
+            color: 'white',
+            fontSize: '16px',
+            border: '1px solid white',
+            borderCollapse: 'collapse',
+            padding: '10px',
+            textAlign: 'center'
+        }
+    }));
+
     return (
         <TableHead>
-            <TableRow>
+            <StyledTableRow>
                 {headCells.map((headCell) => (
-                    <TableCell
+                    <StyledTableCell
                         key={headCell.id}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
@@ -107,9 +128,9 @@ function EnhancedTableHead(props) {
                                 </Box>
                             ) : null}
                         </TableSortLabel>
-                    </TableCell>
+                    </StyledTableCell>
                 ))}
-            </TableRow>
+            </StyledTableRow>
         </TableHead>
     );
 }
@@ -155,10 +176,34 @@ export default function SortTable() {
         setPage(0);
     };
 
+      // style added on the table container 
+    const StyledTableContainer = styled(TableContainer)(() => ({
+        marginTop: '20px',
+        display: 'flex',
+        flexFlow: 'row',
+        justifyContent: 'space-around'
+    }));
+
+    // style added on the cell of the table 
+    const StyledTableCell = styled(TableCell)(() => ({
+
+        // the cell from the body of the table
+        [`&.${tableCellClasses.body}`]: {
+            fontSize: 14,
+            border: '1px solid black',
+            borderCollapse: 'collapse',
+        }
+    }));
+
+    // style added on the row of the table
+    const StyledTableRow = styled(TableRow)(() => ({
+        marginTop: '20px'
+    }));
+
     return (
         <div>
-            <TableContainer>
-                <Table>
+            <StyledTableContainer>
+                <Table stickyHeader style={{ tableLayout: 'fixed', maxWidth: '95%' }}>
                     <EnhancedTableHead
                         order={order}
                         orderBy={orderBy}
@@ -174,26 +219,26 @@ export default function SortTable() {
                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                 return (
-                                    <TableRow>
-                                        <TableCell
+                                    <StyledTableRow>
+                                        <StyledTableCell
                                             component="th"
                                             id={labelId}
                                             scope="row"
                                             padding="none"
                                         >
                                             {row.name}
-                                        </TableCell>
-                                        <TableCell align="right">{row.country}</TableCell>
-                                        <TableCell align="right">{row.lat}</TableCell>
-                                        <TableCell align="right">{row.long}</TableCell>
-                                        <TableCell align="right">{row.probability}</TableCell>
-                                        <TableCell align="right">{row.month}</TableCell>
-                                    </TableRow>
+                                        </StyledTableCell>
+                                        <StyledTableCell align="right">{row.country}</StyledTableCell>
+                                        <StyledTableCell align="right">{row.lat}</StyledTableCell>
+                                        <StyledTableCell align="right">{row.long}</StyledTableCell>
+                                        <StyledTableCell align="right">{row.probability}</StyledTableCell>
+                                        <StyledTableCell align="right">{row.month}</StyledTableCell>
+                                    </StyledTableRow>
                                 );
                             })}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </StyledTableContainer>
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
@@ -202,6 +247,7 @@ export default function SortTable() {
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
             />
         </div>
     );
