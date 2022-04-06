@@ -51,3 +51,8 @@
     padding-bottom: 5px;
     margin-top: 5px;
 }
+
+.detailsPage__star-image {
+    width: 15px;
+    height: 15px;
+}

@@ -13,7 +13,7 @@ import Filter from "../filter";
 import image1 from './images/filter.png';
 import L from 'leaflet';
 import DetailsPage from "../modal";
-
+import SortTable from "../sortCol";
 
 export default function Dashboard() {
 
@@ -69,55 +69,51 @@ export default function Dashboard() {
         fetchData();
     }, []);
 
-    // variable that returns true if there are no empty rows and false in case of the opposite
-    // const emptyRows =
-    //     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - spots.length) : 0;
+    // // function for changing the page 
+    // const handleChangePage = (event, newPage) => {
+    //     setPage(newPage);
+    // };
 
-    // function for changing the page 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+    // // function to change how many rows are displayed on one page of the table 
+    // const handleChangeRowsPerPage = (event) => {
+    //     setRowsPerPage(parseInt(event.target.value, 10));
+    //     setPage(0);
+    // };
 
-    // function to change how many rows are displayed on one page of the table 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
+    // // style added on the table container 
+    // const StyledTableContainer = styled(TableContainer)(() => ({
+    //     marginTop: '20px',
+    //     display: 'flex',
+    //     flexFlow: 'row',
+    //     justifyContent: 'space-around'
+    // }));
 
-    // style added on the table container 
-    const StyledTableContainer = styled(TableContainer)(() => ({
-        marginTop: '20px',
-        display: 'flex',
-        flexFlow: 'row',
-        justifyContent: 'space-around'
-    }));
+    // // style added on the cell of the table 
+    // const StyledTableCell = styled(TableCell)(() => ({
 
-    // style added on the cell of the table 
-    const StyledTableCell = styled(TableCell)(() => ({
+    //     // the cell from the header of the table
+    //     [`&.${tableCellClasses.head}`]: {
+    //         backgroundColor: 'black',
+    //         color: 'white',
+    //         fontSize: '16px',
+    //         border: '1px solid white',
+    //         borderCollapse: 'collapse',
+    //         padding: '10px',
+    //         textAlign: 'center'
+    //     },
 
-        // the cell from the header of the table
-        [`&.${tableCellClasses.head}`]: {
-            backgroundColor: 'black',
-            color: 'white',
-            fontSize: '16px',
-            border: '1px solid white',
-            borderCollapse: 'collapse',
-            padding: '10px',
-            textAlign: 'center'
-        },
+    //     // the cell from the body of the table
+    //     [`&.${tableCellClasses.body}`]: {
+    //         fontSize: 14,
+    //         border: '1px solid black',
+    //         borderCollapse: 'collapse',
+    //     },
+    // }));
 
-        // the cell from the body of the table
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            border: '1px solid black',
-            borderCollapse: 'collapse',
-        },
-    }));
-
-    // atyle added on the row of the table
-    const StyledTableRow = styled(TableRow)(() => ({
-        marginTop: '20px'
-    }));
+    // // style added on the row of the table
+    // const StyledTableRow = styled(TableRow)(() => ({
+    //     marginTop: '20px'
+    // }));
 
     const handleFilterButtonClick = (e) => {
         setButtonClicked(true);
@@ -135,6 +131,7 @@ export default function Dashboard() {
         }
     }
 
+    // favorite spots added in the list
     const addToFavorites = (spot) => {
         for (const s of spots)
         {
@@ -175,7 +172,6 @@ export default function Dashboard() {
                               }}
                             icon = {spot.favorite === true ? greenIcon : blueIcon}  // if the spot is favorite, then the marker should be yellow
                         >
-                            for 
                             <DetailsPage spotNeeded={spot} 
                                 yellowIcon={greenIcon} 
                                 addToFavorites = {addToFavorites}
@@ -214,7 +210,7 @@ export default function Dashboard() {
                 />
             </div>
 
-            <StyledTableContainer>
+            {/*<StyledTableContainer>
                 <Table stickyHeader style={{ tableLayout: 'fixed', maxWidth: '95%' }}>
                     <TableHead>
                         <StyledTableRow>
@@ -227,9 +223,9 @@ export default function Dashboard() {
                         </StyledTableRow>
                     </TableHead>
 
-                    <TableBody>
+                    <TableBody> */}
                         {/* split the table rows in table of there is enough space fo them */}
-                        {(rowsPerPage > 0 ?
+                        {/* {(rowsPerPage > 0 ?
                             spots.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : spots
                         ).map((spot) => (
                             <StyledTableRow>
@@ -240,17 +236,17 @@ export default function Dashboard() {
                                 <StyledTableCell>{spot.probability}</StyledTableCell>
                                 <StyledTableCell>{spot.month}</StyledTableCell>
                             </StyledTableRow>
-                        ))}
+                        ))} */}
 
                         {/* {emptyRows > 0 && (
                             <StyledTableRow>
                                 <StyledTableCell colSpan={6} />
                             </StyledTableRow>
                         )} */}
-                    </TableBody>
+                    {/* </TableBody> */}
 
                     {/* add footer for the table */}
-                    <TableFooter style={{ display: 'flex', alignItems: 'center' }}>
+                    {/* <TableFooter style={{ display: 'flex', alignItems: 'center' }}>
                         <StyledTableRow>
                             <TablePagination
                                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}   // the user can choose how many rows should be dispalyed in the table at a time (5 rows, 10 rows or 25 rows)
@@ -271,7 +267,8 @@ export default function Dashboard() {
                         </StyledTableRow>
                     </TableFooter>
                 </Table>
-            </StyledTableContainer>
+            </StyledTableContainer> */}
+            <SortTable vector={spots}/>
         </div>
     );
 }

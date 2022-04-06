@@ -4,6 +4,8 @@ import { WiDegrees } from 'react-icons/wi';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { AiOutlineMinus } from 'react-icons/ai';
 import './modal.css';
+import image1 from './images/star-off.png';
+import image2 from './images/star-on.png';
 
 // function to display details about the location the user clicks on
 export default function DetailsPage(props) {
@@ -26,7 +28,10 @@ export default function DetailsPage(props) {
         <div>
             <Popup className="popup">
                 <div className="popup__main-container">
-                    <div className="popup__name">{spot.name}</div>
+                {spot.favorite === true
+                        ? <div className="popup__name"><img src={image2} className="detailsPage__star-image" /> <span>{spot.name}</span></div>
+                        :  <div className="popup__name"><img src={image1} className="detailsPage__star-image" /> <span>{spot.name}</span></div>
+                    }
                     <div className="popup__country">{spot.country}</div>
                     <div className="popup__first-title">WIND PROBABILITY</div>
                     <div className="popup__windProb"><span>{spot.probability}</span><span>%</span></div>
