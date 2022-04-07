@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -10,29 +10,30 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
-import axios from 'axios';
 import { tableCellClasses } from "@mui/material";
 import { styled } from "@mui/material";
 import TablePaginationActions from "../TablePagination";
 
+
+// function that returns -1, 1 or 0 depending on the value received by 'order'
 function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
+    if (b[orderBy] < a[orderBy]) {  // if the items are placed in a descending order, then return -1
         return -1;
     }
-    if (b[orderBy] > a[orderBy]) {
+    if (b[orderBy] > a[orderBy]) {  // if the items are placed in an ascending order, then return 1
         return 1;
     }
     return 0;
 }
 
+
 function getComparator(order, orderBy) {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' // if the items need to be sorted in descending order
+        ? (a, b) => descendingComparator(a, b, orderBy) // 'descendingComparator' function returns the standard values
+        : (a, b) => -descendingComparator(a, b, orderBy);   // otherwise, we exchange values ​​with each other
 }
 
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
+// function to sort the elem of an array
 function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
@@ -45,63 +46,61 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
+// headCells is an array with the info that should be in the head of the table
 const headCells = [
     {
-        id: 'name',
-        numeric: false,
-        disablePadding: true,
-        label: 'Name',
+        id: 'name', // the id, according to which the elements will be ordered
+        numeric: false, // if it is a numeric value or not
+        label: 'Name',  // what appears in the cell
     },
     {
         id: 'country',
         numeric: false,
-        disablePadding: false,
         label: 'Country',
     },
     {
         id: 'lat',
         numeric: true,
-        disablePadding: false,
         label: 'Latitude',
     },
     {
         id: 'long',
         numeric: true,
-        disablePadding: false,
         label: 'Longitude',
     },
     {
         id: 'probability',
         numeric: true,
-        disablePadding: false,
         label: 'Wind Prob.',
     },
     {
         id: 'month',
         numeric: true,
-        disablePadding: false,
         label: 'When to go',
     },
 ];
 
-function EnhancedTableHead(props) {
+// function used to display the head of the table
+function TableHeadFunction(props) {
     const { order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
 
+    // style added to the table row
     const StyledTableRow = styled(TableRow)(() => ({
         marginTop: '20px'
     }));
 
+    // style added to the table cel
     const StyledTableCell = styled(TableCell)(() => ({
 
         // the cell from the header of the table
         [`&.${tableCellClasses.head}`]: {
-            backgroundColor: 'black',
+            backgroundColor: 'rgb(128,128,128)',
             color: 'white',
             fontSize: '16px',
-            border: '1px solid white',
+            border: '1px solid black',
             borderCollapse: 'collapse',
             padding: '10px',
             textAlign: 'center'
@@ -135,48 +134,39 @@ function EnhancedTableHead(props) {
     );
 }
 
-EnhancedTableHead.propTypes = {
+TableHeadFunction.propTypes = {
     onRequestSort: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
 };
 
-export default function SortTable() {
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [rows, setRows] = React.useState([]);
+// the main function
+export default function SortTable(props) {
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('calories');
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const rows = props.vector; // in this case, rows = spots
 
-    useEffect(() => {
-        async function fetchData() {
-            const request = await axios.get('https://5ddbb358041ac10014de140b.mockapi.io/spot');
-            for (const obj of request.data) {
-                obj.favorite = false;    // attribute 'favorite' helps us to know if the spot is on the favorite list or no
-            }
-            setRows(request.data);
-            console.log(request.data);
-            return request;
-        }
-        fetchData();
-    }, []);
-
+    // function used to handling the sorting
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
 
+    // function for changing the page 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
+    // function to change how many rows are displayed on one page of the table 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
 
-      // style added on the table container 
+    // style added on the table container 
     const StyledTableContainer = styled(TableContainer)(() => ({
         marginTop: '20px',
         display: 'flex',
@@ -204,43 +194,35 @@ export default function SortTable() {
         <div>
             <StyledTableContainer>
                 <Table stickyHeader style={{ tableLayout: 'fixed', maxWidth: '95%' }}>
-                    <EnhancedTableHead
+                    <TableHeadFunction
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={handleRequestSort}
                         rowCount={rows.length}
                     />
                     <TableBody>
-                        {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
+                        {/* sorting function is called and the rows will be displayed in order, but only 5/10/25 on a page */}
                         {stableSort(rows, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
-                                const labelId = `enhanced-table-checkbox-${index}`;
-
+                           
                                 return (
                                     <StyledTableRow>
-                                        <StyledTableCell
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            padding="none"
-                                        >
-                                            {row.name}
-                                        </StyledTableCell>
-                                        <StyledTableCell align="right">{row.country}</StyledTableCell>
-                                        <StyledTableCell align="right">{row.lat}</StyledTableCell>
-                                        <StyledTableCell align="right">{row.long}</StyledTableCell>
-                                        <StyledTableCell align="right">{row.probability}</StyledTableCell>
-                                        <StyledTableCell align="right">{row.month}</StyledTableCell>
+                                        <StyledTableCell>{row.name}</StyledTableCell>
+                                        <StyledTableCell>{row.country}</StyledTableCell>
+                                        <StyledTableCell>{row.lat}</StyledTableCell>
+                                        <StyledTableCell>{row.long}</StyledTableCell>
+                                        <StyledTableCell>{row.probability}</StyledTableCell>
+                                        <StyledTableCell>{row.month}</StyledTableCell>
                                     </StyledTableRow>
+
                                 );
                             })}
                     </TableBody>
                 </Table>
             </StyledTableContainer>
             <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[5, 10, 25]}    // the user can choose how many rows should be dispalyed in the table at a time (5 rows, 10 rows or 25 rows)
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
