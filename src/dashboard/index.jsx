@@ -17,6 +17,7 @@ export default function Dashboard() {
     const [buttonClicked, setButtonClicked] = useState(false);
     const [buttonDisplayed, setButtonDisplayed] = useState(true);
     const [favSpots, setFavSpots] = useState([]);
+    const [inputText, setInputText] = useState('');
 
 
     var greenIcon = new L.Icon({
@@ -90,13 +91,12 @@ export default function Dashboard() {
         }
     }
 
-    const [inputText, setInputText] = useState('');
-
-    let inputHandler = (e) => {
+    // function for handlering the input of the searching bar
+    const inputHandler = (e) => {
         e.preventDefault();
-        var lowerCase = e.target.value.toLowerCase();
+        var lowerCase = e.target.value.toLowerCase();   // the letters in the input are all transformed into lowercase letters
         setInputText(lowerCase);
-        console.log(lowerCase);
+        // console.log(lowerCase);
     }
 
     return (
@@ -168,7 +168,6 @@ export default function Dashboard() {
             </div>
 
             <SortTable vector={spots} input={inputText}/>
-            {/* <BasicExampleDataGridPro/> */}
         </div>
     );
 }
