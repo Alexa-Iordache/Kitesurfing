@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react";
 import './dashboard.css';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import axios from "axios";
-import { Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from "@mui/material";
-import { tableCellClasses } from "@mui/material";
-import { styled } from "@mui/material";
-import { TextField, TablePagination } from "@mui/material";
+import { TextField } from "@mui/material";
 import { BiSearch } from 'react-icons/bi';
 import InputAdornment from '@mui/material/InputAdornment';
-import TablePaginationActions from "../TablePagination";
 import Filter from "../filter";
 import image1 from './images/filter.png';
 import L from 'leaflet';
@@ -18,11 +14,8 @@ import SortTable from "../sortCol";
 export default function Dashboard() {
 
     const [spots, setSpots] = useState([]);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
     const [buttonClicked, setButtonClicked] = useState(false);
     const [buttonDisplayed, setButtonDisplayed] = useState(true);
-    // const [markerClicked, setMarkerClicked] = useState(false);
     const [favSpots, setFavSpots] = useState([]);
 
 
@@ -69,52 +62,6 @@ export default function Dashboard() {
         fetchData();
     }, []);
 
-    // // function for changing the page 
-    // const handleChangePage = (event, newPage) => {
-    //     setPage(newPage);
-    // };
-
-    // // function to change how many rows are displayed on one page of the table 
-    // const handleChangeRowsPerPage = (event) => {
-    //     setRowsPerPage(parseInt(event.target.value, 10));
-    //     setPage(0);
-    // };
-
-    // // style added on the table container 
-    // const StyledTableContainer = styled(TableContainer)(() => ({
-    //     marginTop: '20px',
-    //     display: 'flex',
-    //     flexFlow: 'row',
-    //     justifyContent: 'space-around'
-    // }));
-
-    // // style added on the cell of the table 
-    // const StyledTableCell = styled(TableCell)(() => ({
-
-    //     // the cell from the header of the table
-    //     [`&.${tableCellClasses.head}`]: {
-    //         backgroundColor: 'black',
-    //         color: 'white',
-    //         fontSize: '16px',
-    //         border: '1px solid white',
-    //         borderCollapse: 'collapse',
-    //         padding: '10px',
-    //         textAlign: 'center'
-    //     },
-
-    //     // the cell from the body of the table
-    //     [`&.${tableCellClasses.body}`]: {
-    //         fontSize: 14,
-    //         border: '1px solid black',
-    //         borderCollapse: 'collapse',
-    //     },
-    // }));
-
-    // // style added on the row of the table
-    // const StyledTableRow = styled(TableRow)(() => ({
-    //     marginTop: '20px'
-    // }));
-
     const handleFilterButtonClick = (e) => {
         setButtonClicked(true);
         setButtonDisplayed(false);
@@ -141,6 +88,15 @@ export default function Dashboard() {
                 break;
             }
         }
+    }
+
+    const [inputText, setInputText] = useState('');
+
+    let inputHandler = (e) => {
+        e.preventDefault();
+        var lowerCase = e.target.value.toLowerCase();
+        setInputText(lowerCase);
+        console.log(lowerCase);
     }
 
     return (
@@ -198,6 +154,7 @@ export default function Dashboard() {
             <div className="dashboard__searching-input ">
                 <TextField
                     style={{ padding: '5px' }}
+                    onChange={inputHandler}
                     label="Searching ..."
                     InputProps={{
                         startAdornment: (
@@ -210,65 +167,8 @@ export default function Dashboard() {
                 />
             </div>
 
-            {/*<StyledTableContainer>
-                <Table stickyHeader style={{ tableLayout: 'fixed', maxWidth: '95%' }}>
-                    <TableHead>
-                        <StyledTableRow>
-                            <StyledTableCell>Name</StyledTableCell>
-                            <StyledTableCell>Country</StyledTableCell>
-                            <StyledTableCell>Latitude</StyledTableCell>
-                            <StyledTableCell>Longitude</StyledTableCell>
-                            <StyledTableCell>Wind Prob.</StyledTableCell>
-                            <StyledTableCell>When to go</StyledTableCell>
-                        </StyledTableRow>
-                    </TableHead>
-
-                    <TableBody> */}
-                        {/* split the table rows in table of there is enough space fo them */}
-                        {/* {(rowsPerPage > 0 ?
-                            spots.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : spots
-                        ).map((spot) => (
-                            <StyledTableRow>
-                                <StyledTableCell>{spot.name}</StyledTableCell>
-                                <StyledTableCell>{spot.country}</StyledTableCell>
-                                <StyledTableCell>{spot.lat}</StyledTableCell>
-                                <StyledTableCell>{spot.long}</StyledTableCell>
-                                <StyledTableCell>{spot.probability}</StyledTableCell>
-                                <StyledTableCell>{spot.month}</StyledTableCell>
-                            </StyledTableRow>
-                        ))} */}
-
-                        {/* {emptyRows > 0 && (
-                            <StyledTableRow>
-                                <StyledTableCell colSpan={6} />
-                            </StyledTableRow>
-                        )} */}
-                    {/* </TableBody> */}
-
-                    {/* add footer for the table */}
-                    {/* <TableFooter style={{ display: 'flex', alignItems: 'center' }}>
-                        <StyledTableRow>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}   // the user can choose how many rows should be dispalyed in the table at a time (5 rows, 10 rows or 25 rows)
-                                colSpan={3}
-                                count={spots.length} // how many item are (spots)
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                SelectProps={{
-                                    inputProps: {
-                                        'aria-label': 'rows per page',
-                                    },
-                                    native: true,
-                                }}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                ActionsComponent={TablePaginationActions}
-                            />
-                        </StyledTableRow>
-                    </TableFooter>
-                </Table>
-            </StyledTableContainer> */}
-            <SortTable vector={spots}/>
+            <SortTable vector={spots} input={inputText}/>
+            {/* <BasicExampleDataGridPro/> */}
         </div>
     );
 }

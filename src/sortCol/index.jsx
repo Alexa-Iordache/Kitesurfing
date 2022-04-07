@@ -13,6 +13,7 @@ import { visuallyHidden } from '@mui/utils';
 import { tableCellClasses } from "@mui/material";
 import { styled } from "@mui/material";
 import TablePaginationActions from "../TablePagination";
+import MaterialTable from 'material-table';
 
 
 // function that returns -1, 1 or 0 depending on the value received by 'order'
@@ -143,10 +144,19 @@ TableHeadFunction.propTypes = {
 // the main function
 export default function SortTable(props) {
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('calories');
+    const [orderBy, setOrderBy] = useState('country');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const rows = props.vector; // in this case, rows = spots
+    // const [rows, setRows] = useState(props.vector); // in this case, rows = spots
+    const rows = props.vector;
+    const [searched, setSearched] = useState('');
+    const [filteredRows, setFilteredRows] = useState(rows);
+    const [searchInput, setSearchInput] = useState('');
+
+    // const cancelSearch = () => {
+    //     setSearched('');
+    //     requestSearch(searched);
+    // }
 
     // function used to handling the sorting
     const handleRequestSort = (event, property) => {
@@ -165,6 +175,25 @@ export default function SortTable(props) {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const handleChangeSearch = (e) => {
+        e.preventDefault();
+        setSearchInput(e.target.value);
+    }
+
+    // if (searchInput.length > 0) {
+    //     const filteredRows = rows.filter((row) => {
+    //         //console.log(row.name.includes(searchInput));
+    //         // return row.name.includes(searchInput);
+    //         if (row.name.includes(searchInput) === true) {
+    //             console.log(row);
+    //             //setFilteredRows(row);
+    //             return row;
+    //         }
+    //     });
+    //     // setFilteredRows(filteredRows);
+    //     //console.log(filteredRows);
+
 
     // style added on the table container 
     const StyledTableContainer = styled(TableContainer)(() => ({
@@ -190,10 +219,26 @@ export default function SortTable(props) {
         marginTop: '20px'
     }));
 
+    const filteredData = rows.filter((el) => {
+        //if no input the return the original
+        if (props.input === '') {
+            return el;
+        }
+        //return the item which contains the user input
+        else {
+            return el.name.toLowerCase().includes(props.input)
+        }
+    })
+
     return (
         <div>
+            
+
             <StyledTableContainer>
-                <Table stickyHeader style={{ tableLayout: 'fixed', maxWidth: '95%' }}>
+                <Table stickyHeader
+                    style={{ tableLayout: 'fixed', maxWidth: '95%' }}
+                    options={{ search: true }}
+                >
                     <TableHeadFunction
                         order={order}
                         orderBy={orderBy}
@@ -202,10 +247,9 @@ export default function SortTable(props) {
                     />
                     <TableBody>
                         {/* sorting function is called and the rows will be displayed in order, but only 5/10/25 on a page */}
-                        {stableSort(rows, getComparator(order, orderBy))
+                        {stableSort(filteredData, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, index) => {
-                           
+                            .map((row) => {
                                 return (
                                     <StyledTableRow>
                                         <StyledTableCell>{row.name}</StyledTableCell>
@@ -215,7 +259,6 @@ export default function SortTable(props) {
                                         <StyledTableCell>{row.probability}</StyledTableCell>
                                         <StyledTableCell>{row.month}</StyledTableCell>
                                     </StyledTableRow>
-
                                 );
                             })}
                     </TableBody>
@@ -232,5 +275,6 @@ export default function SortTable(props) {
                 ActionsComponent={TablePaginationActions}
             />
         </div>
+
     );
 }
