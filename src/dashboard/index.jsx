@@ -10,6 +10,7 @@ import image1 from './images/filter.png';
 import L from 'leaflet';
 import DetailsPage from "../modal";
 import SortTable from "../sortCol";
+import { FaUserCircle } from 'react-icons/fa';
 
 export default function Dashboard() {
 
@@ -18,6 +19,7 @@ export default function Dashboard() {
     const [buttonDisplayed, setButtonDisplayed] = useState(true);
     const [favSpots, setFavSpots] = useState([]);
     const [inputText, setInputText] = useState('');
+    const [logOut, setLogOut] = useState(false);
 
 
     var greenIcon = new L.Icon({
@@ -70,8 +72,8 @@ export default function Dashboard() {
     }
 
     // we change the spots' 'favorite' attribute to 'true' if that spot is on the list with favorites
-    for (var i=0; i <spots.length; i++){
-        for (var j=0; j <favSpots.length; j++){
+    for (var i = 0; i < spots.length; i++){
+        for (var j = 0; j < favSpots.length; j++){
             if (spots[i].id == parseInt(favSpots[j].spot))
             {
                 spots[i].favorite = true;
@@ -99,11 +101,21 @@ export default function Dashboard() {
         // console.log(lowerCase);
     }
 
+    const handleClickUserButton = (e) => {
+        console.log("butonul a fost apasat");
+        setLogOut(true);
+    } 
+
     return (
         <div>
             {/* header for dashboard page */}
             <div className="dashboard__header">
                 <div className="dashboard__title">Kite</div>
+                <button className="dashboard__userCircleButton"
+                    onClick={handleClickUserButton}>
+                    <FaUserCircle size={45} className="dashboard__userCircle"/> 
+                </button>
+                {logOut === true ? <button className="dashboard__logOutButton">LOG OUT</button> : null}
             </div>
 
             <div className="dashboard__mapAndFilter">
