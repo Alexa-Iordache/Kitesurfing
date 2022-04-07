@@ -11,6 +11,7 @@ import L from 'leaflet';
 import DetailsPage from "../modal";
 import SortTable from "../sortCol";
 import { FaUserCircle } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
 
@@ -20,6 +21,7 @@ export default function Dashboard() {
     const [favSpots, setFavSpots] = useState([]);
     const [inputText, setInputText] = useState('');
     const [logOut, setLogOut] = useState(false);
+    const navigate = useNavigate();
 
 
     var greenIcon = new L.Icon({
@@ -106,6 +108,11 @@ export default function Dashboard() {
         setLogOut(true);
     } 
 
+    const handleLogOutButton = (e) => {
+        console.log("butonul de log out a fost apasat");
+        navigate('/login-page');
+    }
+
     return (
         <div>
             {/* header for dashboard page */}
@@ -115,7 +122,7 @@ export default function Dashboard() {
                     onClick={handleClickUserButton}>
                     <FaUserCircle size={45} className="dashboard__userCircle"/> 
                 </button>
-                {logOut === true ? <button className="dashboard__logOutButton">LOG OUT</button> : null}
+                {logOut === true ? <button className="dashboard__logOutButton" onClick={handleLogOutButton}>LOG OUT</button> : null}
             </div>
 
             <div className="dashboard__mapAndFilter">
