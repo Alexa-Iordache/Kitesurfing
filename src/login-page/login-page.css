@@ -30,3 +30,10 @@ h1{
     font-size: large;
     padding: 12px 45px;
 }
+
+.login__question {
+    font-style: italic;
+    margin-top: 15px;
+    color: rgb(18, 18, 170);
+    font-weight: 600;
+}

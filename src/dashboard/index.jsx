@@ -117,7 +117,15 @@ export default function Dashboard() {
         <div>
             {/* header for dashboard page */}
             <div className="dashboard__header">
+
+                {/* title */}
                 <div className="dashboard__title">Kite</div>
+
+                {/* filter button */}
+                {/* after the Filter button is clicked and the container with the searching options is displayed, the button will not be displayed anymore */}
+                {buttonDisplayed === false ? null : <button className="dashboard__filter-button" onClick={handleFilterButtonClick}> <img src={image1} className="filter__image" /> <span className="filter__span">FILTERS</span> </button>}
+
+                {/* id the user profile circle is clicked, a button with the 'log out' option will appear */}
                 <button className="dashboard__userCircleButton"
                     onClick={handleClickUserButton}>
                     <FaUserCircle size={45} className="dashboard__userCircle"/> 
@@ -160,8 +168,6 @@ export default function Dashboard() {
                     {/* when the Filter button is clicked, the container with the searching options will appear */}
                     {buttonClicked === true ? <Filter vector={spots} /> : null}
 
-                    {/* after the Filter button is clicked and the container with the searching options is displayed, the button will not be displayed anymore*/}
-                    {buttonDisplayed === false ? null : <button className="dashboard__filter-button" onClick={handleFilterButtonClick}> <img src={image1} className="filter__image" /> <span className="filter__span">FILTERS</span> </button>}
                 </div>
 
             </div>

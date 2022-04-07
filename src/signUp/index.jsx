@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import './login-page.css';
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,7 +6,7 @@ import { Link } from "react-router-dom";
 
 
 // function for the 'login' part
-export default function Login() {
+export default function SignUp() {
 
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -36,16 +35,16 @@ export default function Login() {
         }
 
         // the user input is added along with the post request, which will give a response or throw an error
-        axios.post(`https://5ddbb358041ac10014de140b.mockapi.io/login`, { user })
-            .then (response => {
-                console.log(response);
-                console.log(response.data);
-            })
-            .catch( error => {
-                if (error.response) {
-                    console.log("eroare");
-                }
-            })
+        // axios.post(`https://5ddbb358041ac10014de140b.mockapi.io/login`, { user })
+        //     .then (response => {
+        //         console.log(response);
+        //         console.log(response.data);
+        //     })
+        //     .catch( error => {
+        //         if (error.response) {
+        //             console.log("eroare");
+        //         }
+        //     })
         navigate('/dashboard');
     }
 
@@ -54,7 +53,7 @@ export default function Login() {
             <h1> Kite</h1>
 
             {/* description for the first input */}
-            <div className="login__username"> Please enter your username:</div>
+            <div className="login__username"> Username:</div>
 
             {/* text filed for the username input */}
             <TextField
@@ -66,7 +65,7 @@ export default function Login() {
                 onChange={handleChangeUsername} />
 
             {/* description for the second input */}
-            <div className="login__password"> Please enter your password:</div>
+            <div className="login__password"> Password:</div>
 
             {/* text filed for the password input */}
             <TextField
@@ -80,10 +79,31 @@ export default function Login() {
                 onChange={handleChangePassword}
             />
 
-            <div className="login__question"> 
-                <span>No account?</span>
-                <span> <Link to='/signUp' id="first">Sign in</Link> </span>
-            </div>
+            <div className="login__password"> Repete password:</div>
+
+            <TextField
+                required
+                className="login__input"
+                label="Password2"
+                type="password"
+                autoComplete="current-password"
+                variant="filled"
+                value={password}
+                onChange={handleChangePassword}
+            />
+
+            <div className="login__password"> E-mail:</div>
+
+            <TextField
+                required
+                className="login__input"
+                label="Email"
+                type="email"
+                // autoComplete="current-password"
+                variant="filled"
+                value={password}
+                onChange={handleChangePassword}
+            />
 
             {/* the login button */}
             <div>
@@ -96,7 +116,7 @@ export default function Login() {
                         backgroundColor: name === '' || password === '' ? 'grey' : 'rgb(79, 144, 230)', // the color of the button will be grey if
                         borderColor: name === '' || password === '' ? 'grey' : 'rgb(79, 144, 230)'  // the button is disabled, and it will turn blue when it is abled 
                     }}>
-                    Login</button>
+                    Sign up</button>
             </div>
         </div>
     );
