@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import './signUp.css';
@@ -15,6 +15,19 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [email, setEmail] = useState('');
+    const [users, setUsers] = useState([]);
+    const [userFound, setUserFound] = useState(false);
+
+    // get the information about the users from JSON and put them in 'users'
+    useEffect(() => {
+        async function fetchData() {
+            const request = await axios.get('https://5ddbb358041ac10014de140b.mockapi.io/user');
+            setUsers(request.data);
+            console.log(request.data);
+            return request;
+        }
+        fetchData();
+    }, []);
 
     // function to update the text from the 'username' input  
     const handleChangeUsername = e => {
@@ -25,6 +38,15 @@ export default function SignUp() {
     const handleChangePassword = e => {
         setPassword(e.target.value);
     };
+
+    function validacija() {
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].name === name) {
+                alert('The name already exist')
+            }
+        }
+        return false;
+    }
 
     // function to update the text from the 'repete password' input  
     const handleChangePassword2 = e => {
@@ -60,6 +82,7 @@ export default function SignUp() {
         navigate('/dashboard');
     }
 
+
     return (
         <div className="signup__main-container">
             <h1> Kite</h1>
@@ -93,8 +116,8 @@ export default function SignUp() {
 
             {/* component that shows how strong the password introduced by the user is */}
             {/* <PasswordStrengthBar password={password} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} /> */}
-            <div style={{ marginTop: '20px', display: 'flex', justifyContent:'center'}}>
-                <PasswordStrengthBar password={password} style={{width: '200px'}} />
+            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+                <PasswordStrengthBar password={password} style={{ width: '200px' }} />
             </div>
 
             {/* description for the third input */}
@@ -125,6 +148,15 @@ export default function SignUp() {
                 value={email}
                 onChange={handleChangeEmail}
             />
+
+            {/* check if the user already exists, using the name and the email */}
+            {users.forEach((user) => {
+                {
+                    (user.name === name && user.email === email)
+                        ? alert("The user already exist")   // if the account exists, then an alert will appear on the window
+                        : console.log('')
+                }
+            })}
 
             <BasicModal password={password} password2={password2} email={email} />
 
