@@ -80,6 +80,8 @@ const headCells = [
     },
 ];
 
+
+
 // function used to display the head of the table
 function TableHeadFunction(props) {
     const { order, orderBy, onRequestSort } = props;
@@ -139,6 +141,8 @@ TableHeadFunction.propTypes = {
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
 };
+
+
 
 // the main function
 export default function SortTable(props) {
@@ -208,18 +212,23 @@ export default function SortTable(props) {
                     style={{ tableLayout: 'fixed', maxWidth: '95%' }}
                     options={{ search: true }}
                 >
+
+                    {/* the head of the table */}
                     <TableHeadFunction
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={handleRequestSort}
                         rowCount={rows.length}
                     />
+
+                    {/* the body of the table */}
                     <TableBody>
                         {/* sorting function is called and the rows will be displayed in order, but only 5/10/25 on a page */}
                         {stableSort(filteredData, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                                 return (
+
                                     <StyledTableRow>
                                         <StyledTableCell>{row.name}</StyledTableCell>
                                         <StyledTableCell>{row.country}</StyledTableCell>
@@ -233,6 +242,8 @@ export default function SortTable(props) {
                     </TableBody>
                 </Table>
             </StyledTableContainer>
+
+            {/* table pagination */}
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}    // the user can choose how many rows should be dispalyed in the table at a time (5 rows, 10 rows or 25 rows)
                 component="div"

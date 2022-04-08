@@ -13,6 +13,9 @@ import SortTable from "../sortCol";
 import { FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
+
+// the main function for the 'dashboard' page
+
 export default function Dashboard() {
 
     const [spots, setSpots] = useState([]);
@@ -24,7 +27,8 @@ export default function Dashboard() {
     const navigate = useNavigate();
 
 
-    var greenIcon = new L.Icon({
+    // customizing the marker in order to have a yellow one
+    var yellowIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41],
@@ -40,6 +44,7 @@ export default function Dashboard() {
         shadowSize: [41, 41]
     });
 
+
     // get the information about the spots from JSON and put them in 'spots'
     useEffect(() => {
         async function fetchData() {
@@ -54,6 +59,7 @@ export default function Dashboard() {
         fetchData();
     }, []);
 
+    // get the information about the favorite spots from JSON and put them in 'favSpots'
     useEffect(() => {
         async function fetchData() {
             const request = await axios.get('https://5ddbb358041ac10014de140b.mockapi.io/favourites');
@@ -67,10 +73,10 @@ export default function Dashboard() {
         fetchData();
     }, []);
 
+    // when the 'filter' button is clicked on, it will dissapear from the window
     const handleFilterButtonClick = (e) => {
         setButtonClicked(true);
         setButtonDisplayed(false);
-        console.log(spots);
     }
 
     // we change the spots' 'favorite' attribute to 'true' if that spot is on the list with favorites
@@ -100,16 +106,18 @@ export default function Dashboard() {
         e.preventDefault();
         var lowerCase = e.target.value.toLowerCase();   // the letters in the input are all transformed into lowercase letters
         setInputText(lowerCase);
-        // console.log(lowerCase);
     }
 
+    
     const handleClickUserButton = (e) => {
-        console.log("butonul a fost apasat");
+        // console.log("user button was clicked on");
         setLogOut(true);
     } 
 
+
+    // when the log out buttoni is clicked, it means that the user logged out, so he returns automatically to the login page
     const handleLogOutButton = (e) => {
-        console.log("butonul de log out a fost apasat");
+        // console.log("log out button was clicked on");
         navigate('/login-page');
     }
 
@@ -133,6 +141,7 @@ export default function Dashboard() {
                 {logOut === true ? <button className="dashboard__logOutButton" onClick={handleLogOutButton}>LOG OUT</button> : null}
             </div>
 
+
             <div className="dashboard__mapAndFilter">
 
                 {/* there was choosen the center of Bucharest, Romania, as starting point */}
@@ -153,10 +162,11 @@ export default function Dashboard() {
                                   console.log('marker clicked', e);
                                 },
                               }}
-                            icon = {spot.favorite === true ? greenIcon : blueIcon}  // if the spot is favorite, then the marker should be yellow
+                            icon = {spot.favorite === true ? yellowIcon : blueIcon}  // if the spot is favorite, then the marker should be yellow
                         >
+                            {/* the popup with the details about the clicked spot */}
                             <DetailsPage spotNeeded={spot} 
-                                yellowIcon={greenIcon} 
+                                yellowIcon={yellowIcon} 
                                 addToFavorites = {addToFavorites}
                                 vector={spots}/>
                         </Marker>
@@ -169,7 +179,6 @@ export default function Dashboard() {
                     {buttonClicked === true ? <Filter vector={spots} /> : null}
 
                 </div>
-
             </div>
 
             {/* div for the 'Kite' title*/}
@@ -192,6 +201,7 @@ export default function Dashboard() {
                 />
             </div>
 
+            {/* table with the information about the spots */}
             <SortTable vector={spots} input={inputText}/>
         </div>
     );

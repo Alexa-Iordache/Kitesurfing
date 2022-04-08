@@ -14,13 +14,12 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal(props) {
+export default function ModalValabilityPassword(props) {
 
     // input passwords are sent as props
     const password = props.password;
     const password2 = props.password2;
     const email = props.email;
-
     const [open, setOpen] = React.useState(true);
 
     // if the user clicks on the window, the modal will dissapear

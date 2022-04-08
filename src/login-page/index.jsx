@@ -16,13 +16,11 @@ export default function Login() {
     // function to update the text from the 'username' input  
     const handleChangeUsername = e => {
         setName(e.target.value);
-        // console.log(e.target.value);
     };
 
     // function to update the text from the 'password' input  
     const handleChangePassword = e => {
         setPassword(e.target.value);
-        // console.log(e.target.value);
     };
 
     // function to make a post request when the username and password are introduced 
@@ -65,6 +63,7 @@ export default function Login() {
                 value={name}
                 onChange={handleChangeUsername} />
 
+
             {/* description for the second input */}
             <div className="login__password"> Please enter your password:</div>
 
@@ -80,9 +79,11 @@ export default function Login() {
                 onChange={handleChangePassword}
             />
 
+            {/* if the user clicks on the 'sign up' link, he will be redirected to the sign up page, where he can
+            create a (new) account */}
             <div className="login__question"> 
                 <span>No account?</span>
-                <span> <Link to='/signUp' id="first">Sign in</Link> </span>
+                <span> <Link to='/signUp' id="first">Sign up</Link> </span>
             </div>
 
             {/* the login button */}
@@ -92,9 +93,11 @@ export default function Login() {
                     // they are redirected to the 'dashboard' page
                     disabled={name === '' || password === '' ? true : false} // if username or password is not written, 
                     // then the user can not log in (the 'login' button is disabled) 
+
+                    // the color of the button will be grey if it is disabled, and it will turn blue when it is abled
                     style={{
-                        backgroundColor: name === '' || password === '' ? 'grey' : 'rgb(79, 144, 230)', // the color of the button will be grey if
-                        borderColor: name === '' || password === '' ? 'grey' : 'rgb(79, 144, 230)'  // the button is disabled, and it will turn blue when it is abled 
+                        backgroundColor: name === '' || password === '' ? 'grey' : 'rgb(79, 144, 230)', 
+                        borderColor: name === '' || password === '' ? 'grey' : 'rgb(79, 144, 230)' 
                     }}>
                     Login</button>
             </div>

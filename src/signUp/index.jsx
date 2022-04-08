@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import './signUp.css';
-import BasicModal from "../modalPassword";
+import ModalValabilityPassword from "../modalPassword";
 import PasswordStrengthBar from "react-password-strength-bar";
 import axios from "axios";
 
@@ -156,16 +156,8 @@ export default function SignUp() {
                 onChange={handleChangeEmail}
             />
 
-            {/* check if the user already exists, using the name and the email */}
-            {/* {users.forEach((user) => {
-                {
-                    (user.name === name && user.email === email)
-                        ? alert("The user already exist")   // if the account exists, then an alert will appear on the window
-                        : console.log("account does not exist")
-                }
-            })} */}
 
-            <BasicModal password={password} password2={password2} email={email} />
+            <ModalValabilityPassword password={password} password2={password2} email={email} />
 
             <button onClick={handleVerifyButton}>verify</button>
 

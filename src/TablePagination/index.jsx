@@ -1,3 +1,13 @@
+
+
+// this is an example of CONTAINER component
+// it passes the data and behavior to presentational or other container components
+// it has its own states.
+// the data can be generated here and passed to presentational components
+
+
+
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
@@ -7,6 +17,8 @@ import { BiLastPage } from 'react-icons/bi';
 import { BiFirstPage } from 'react-icons/bi';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { AiOutlineArrowRight } from 'react-icons/ai';
+
+
 
 // functions used to make possible changing the 5 rows displayed at a time in the table
 
