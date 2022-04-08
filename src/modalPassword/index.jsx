@@ -19,7 +19,7 @@ export default function BasicModal(props) {
     // input passwords are sent as props
     const password = props.password;
     const password2 = props.password2;
-
+    const email = props.email;
 
     const [open, setOpen] = React.useState(true);
 
@@ -29,7 +29,7 @@ export default function BasicModal(props) {
     return (
         <div>
             {/* if both of the password innputs are completed and they are different */}
-            {(password !== password2 && password !== '' && password2 !== '')
+            {(password !== password2 && password !== '' && password2 !== '' && email !== '')
                 ?   
                 // the modal will pop up
                 <Modal
