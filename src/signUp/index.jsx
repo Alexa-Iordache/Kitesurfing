@@ -3,8 +3,8 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import './signUp.css';
 import BasicModal from "../modalPassword";
+import PasswordStrengthBar from "react-password-strength-bar";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 
 // function for the 'login' part
@@ -15,7 +15,6 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [email, setEmail] = useState('');
-    const [showModal , setShowModal] = useState(false);
 
     // function to update the text from the 'username' input  
     const handleChangeUsername = e => {
@@ -29,8 +28,8 @@ export default function SignUp() {
         // console.log(e.target.value);
     };
 
-     // function to update the text from the 'repete password' input  
-     const handleChangePassword2 = e => {
+    // function to update the text from the 'repete password' input  
+    const handleChangePassword2 = e => {
         setPassword2(e.target.value);
         // if (password !== password2) {
         //     setShowModal(true);
@@ -39,8 +38,8 @@ export default function SignUp() {
         //console.log(showModal);
     };
 
-     // function to update the text from the 'email' input  
-     const handleChangeEmail = e => {
+    // function to update the text from the 'email' input  
+    const handleChangeEmail = e => {
         setEmail(e.target.value);
         // console.log(e.target.value);
     };
@@ -50,10 +49,10 @@ export default function SignUp() {
         e.preventDefault();
 
         // capture the user input
-        const user = {
-            name: name,
-            password: password
-        }
+        // const user = {
+        //     name: name,
+        //     password: password
+        // }
 
         // the user input is added along with the post request, which will give a response or throw an error
         // axios.post(`https://5ddbb358041ac10014de140b.mockapi.io/login`, { user })
@@ -88,17 +87,25 @@ export default function SignUp() {
             {/* description for the second input */}
             <div className="signup__password"> Password:</div>
 
-            {/* text filed for the password input */}
-            <TextField
-                required
-                className="signup__input"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                variant="outlined"
-                value={password}
-                onChange={handleChangePassword}
-            />
+            {/* <div className="signup__strongPassword"> */}
+
+                {/* text filed for the password input */}
+                <TextField
+                    required
+                    className="signup__input"
+                    label="Password"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="outlined"
+                    value={password}
+                    onChange={handleChangePassword}
+                />
+                {/* <div className="ceva"> */}
+                    <PasswordStrengthBar password={password} style={{display: 'flex', alignItems:'center', justifyContent: 'center'}}/>
+                {/* </div> */}
+            {/* </div> */}
+
+
 
             <div className="signup__password"> Repete password:</div>
 
@@ -141,9 +148,8 @@ export default function SignUp() {
                     Sign up</button>
             </div>
 
-            {/* {password !== password2 ? <BasicModal/> : null} */}
-            <BasicModal password={password} password2 = {password2}/>
-            
+            <BasicModal password={password} password2={password2} />
+
         </div >
     );
 }
