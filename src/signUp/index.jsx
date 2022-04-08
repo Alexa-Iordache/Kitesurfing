@@ -39,15 +39,6 @@ export default function SignUp() {
         setPassword(e.target.value);
     };
 
-    function validacija() {
-        for (let i = 0; i < users.length; i++) {
-            if (users[i].name === name) {
-                alert('The name already exist')
-            }
-        }
-        return false;
-    }
-
     // function to update the text from the 'repete password' input  
     const handleChangePassword2 = e => {
         setPassword2(e.target.value);
@@ -58,27 +49,43 @@ export default function SignUp() {
         setEmail(e.target.value);
     };
 
+    // when the user click on the Verifing button, it checks if the account already exist (using the name and the email)
+    const handleVerifyButton = e => {
+        e.preventDefault();
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].name == name && users[i].email === email) {
+                setUserFound(true);
+                console.log("exista");
+                alert("The account already exist");
+                break;
+            } 
+        }
+        console.log(userFound);
+    }
+
+
     // function to make a post request when the username and password are introduced 
     const handleClick = e => {
         e.preventDefault();
 
         // capture the user input
-        // const user = {
-        //     name: name,
-        //     password: password
-        // }
+        const user = {
+            name: name,
+            password: password,
+            email: email
+        }
 
         // the user input is added along with the post request, which will give a response or throw an error
-        // axios.post(`https://5ddbb358041ac10014de140b.mockapi.io/login`, { user })
-        //     .then (response => {
-        //         console.log(response);
-        //         console.log(response.data);
-        //     })
-        //     .catch( error => {
-        //         if (error.response) {
-        //             console.log("eroare");
-        //         }
-        //     })
+        axios.post(`https://5ddbb358041ac10014de140b.mockapi.io/user`, { user })
+            .then(response => {
+                console.log(response);
+                console.log(response.data);
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.log("eroare");
+                }
+            })
         navigate('/dashboard');
     }
 
@@ -150,15 +157,17 @@ export default function SignUp() {
             />
 
             {/* check if the user already exists, using the name and the email */}
-            {users.forEach((user) => {
+            {/* {users.forEach((user) => {
                 {
                     (user.name === name && user.email === email)
                         ? alert("The user already exist")   // if the account exists, then an alert will appear on the window
-                        : console.log('')
+                        : console.log("account does not exist")
                 }
-            })}
+            })} */}
 
             <BasicModal password={password} password2={password2} email={email} />
+
+            <button onClick={handleVerifyButton}>verify</button>
 
             {/* the login button */}
             <div>
@@ -166,14 +175,14 @@ export default function SignUp() {
                     onClick={handleClick} // when the user clickes the 'signup' button, 
                     // they are redirected to the 'dashboard' page
 
-                    // if one of the text fields is not completed or the password input is different from the 'repet password' input,
-                    // then the user cand not sign up ('sigup' button is disabled)
-                    disabled={name === '' || password === '' || password2 === '' || email === '' || (password !== password2) ? true : false}
+                    // if one of the text fields is not completed, the password input is different from the 'repet password' input
+                    // or the account already exist, then the user cand not sign up ('sigup' button is disabled)
+                    disabled={name === '' || password === '' || password2 === '' || email === '' || (password !== password2) || userFound === true ? true : false}
 
                     // styled added on the button accordingly to the conditions mentioned before
                     style={{
-                        backgroundColor: name === '' || password === '' || password2 === '' || email === '' || (password !== password2) ? 'grey' : 'rgb(79, 144, 230)', // the color of the button will be grey if
-                        borderColor: name === '' || password === '' || password2 === '' || email === '' || (password !== password2) ? 'grey' : 'rgb(79, 144, 230)'  // the button is disabled, and it will turn blue when it is abled 
+                        backgroundColor: name === '' || password === '' || password2 === '' || email === '' || (password !== password2)  || userFound === true ? 'grey' : 'rgb(79, 144, 230)', // the color of the button will be grey if
+                        borderColor: name === '' || password === '' || password2 === '' || email === '' || (password !== password2) || userFound === true ? 'grey' : 'rgb(79, 144, 230)'  // the button is disabled, and it will turn blue when it is abled 
                     }}>
                     Sign up</button>
             </div>
